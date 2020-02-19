@@ -42,7 +42,13 @@ set(CMAKE_BUILD_TYPE ${CMAKE_BUILD_TYPE} CACHE STRING "")
 list(INSERT CMAKE_MODULE_PATH 0 ${CMAKE_SOURCE_DIR}/cmake/Modules)
 
 # Find GNURadio (pmt and runtime are core, always included)
-find_package(Gnuradio "3.8" REQUIRED COMPONENTS blocks fft filter)
+find_package(Gnuradio "3.8" COMPONENTS blocks fft filter)
+if(NOT Gnuradio_FOUND)
+    find_package(Gnuradio "3.9" COMPONENTS blocks fft filter)
+	if(NOT Gnuradio_FOUND)
+	    message(FATAL_ERROR "Unable to find GNURadio 3.8 or 3.9")
+	ENDIF(NOT Gnuradio_FOUND)
+ENDIF(NOT Gnuradio_FOUND)
 
 # Set the version information here
 set(VERSION_MAJOR 0)
